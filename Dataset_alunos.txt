@@ -1,0 +1,29 @@
+from,to,weight
+Alexandre Gomes,ARQ,1
+Alexandre Gomes,DP,1
+Alexandre Gomes,MD,1
+Alexandre Gomes,TQS,1
+Andre Luiz,DP,1
+Andre Luiz,TQS,1
+Artur Taroco,FPA,1
+Carlos Eduardo,DP,1
+Carlos Eduardo,TQS,1
+Daniel Costa,ARQ,1
+Daniel Costa,TQS,1
+Estevao Alves,ARQ,1
+Estevao Alves,TQS,1
+Felipe Garcia,DP,1
+Gustavo Henrique,TQS,1
+Jose Vitor,ARQ,1
+Jose Vitor,DP,1
+Jose Vitor,TQS,1
+Leonardo Balbo,ARQ,1
+Leonardo Balbo,DP,1
+Rayssa Marconato,ARQ,1
+Rayssa Marconato,MD,1
+Rayssa Marconato,TQS,1
+Samara,DP,1
+Samara,TQS,1
+Simone,TQS,1
+Vinicius Gualtieri,MD,1
+Vinicius Gualtieri,TQS,1
