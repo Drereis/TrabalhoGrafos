@@ -36,6 +36,8 @@ dados_dataset <- read.csv(file.choose(), header = TRUE, sep = ",")
 install.packages('igraph')
 library('igraph')
 
+
+
 # --- GERANDO A MATRIZ DE INCIDÊNCIA ---
 
 #Cria a tabela cruzada (Alunos x Disciplinas) usando os pesos
@@ -49,5 +51,23 @@ matriz_inc <- unclass(matriz_inc)
 
 #Visualiza a matriz final no console
 print(matriz_inc)
+
+
+
+# --- GERANDO A MATRIZ DE SIMILARIDADE ---
+
+# Matriz de Similaridade entre alunos
+matriz_similaridade <- matriz_inc %*% t(matriz_inc)
+
+print(matriz_similaridade)
+
+
+
+# --- GERANDO A MATRIZ DE COOCORRENCIA ---
+
+# Matriz de Coocorrência entre disciplinas
+matriz_coocorrencia <- t(matriz_inc) %*% matriz_inc
+
+print(matriz_coocorrencia)
 
 
