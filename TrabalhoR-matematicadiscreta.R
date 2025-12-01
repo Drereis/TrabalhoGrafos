@@ -1,73 +1,85 @@
-#Dataset dos alunos gerado a partir do levantamento feito na sala utilizando uma enquete no grupo do Whatsapp.
-#from,to,weight
-#Alexandre Gomes,ARQ,1
-#Alexandre Gomes,DP,1
-#lexandre Gomes,MD,1
-#Alexandre Gomes,TQS,1
-#Andre Luiz,DP,1
-#Andre Luiz,TQS,1
-#Artur Taroco,FPA,1
-#Carlos Eduardo,DP,1
-#Carlos Eduardo,TQS,1
-#Daniel Costa,ARQ,1
-#Daniel Costa,TQS,1
-#Estevao Alves,ARQ,1
-#Estevao Alves,TQS,1
-#Felipe Garcia,DP,1
-#Gustavo Henrique,TQS,1
-#Jose Vitor,ARQ,1
-#Jose Vitor,DP,1
-#Jose Vitor,TQS,1
-#Leonardo Balbo,ARQ,1
-#Leonardo Balbo,DP,1
-#Rayssa Marconato,ARQ,1
-#Rayssa Marconato,MD,1
-#Rayssa Marconato,TQS,1
-#Samara,DP,1
-#Samara,TQS,1
-#Simone,TQS,1
-#Vinicius Gualtieri,MD,1
-#Vinicius Gualtieri,TQS,1
+# ============================================================
+#               TRABALHO - ANÁLISE DE GRAFOS
+# ============================================================
 
-#Lê o arquivo .txt como se fosse um CSV 
+# Carrega pacote necessário
+library(igraph)
+
+# Lê o arquivo (selecionar na janela)
 dados_dataset <- read.csv(file.choose(), header = TRUE, sep = ",")
 
-#instalação das bibliotecas
-install.packages('igraph')
-library('igraph')
+# ============================================================
+# MATRIZ DE INCIDÊNCIA (Alunos x Disciplinas)
+# ============================================================
 
-
-
-# --- GERANDO A MATRIZ DE INCIDÊNCIA ---
-
-#Cria a tabela cruzada (Alunos x Disciplinas) usando os pesos
 matriz_inc <- xtabs(weight ~ from + to, data = dados_dataset)
-
-#Confere se criou como 'xtabs' e 'table'
-class(matriz_inc)
-
-#Remove a classe especial para virar uma matriz numérica pura, essencial para as operações que serão feitas depois
 matriz_inc <- unclass(matriz_inc)
-
-#Visualiza a matriz final no console
 print(matriz_inc)
 
+# ============================================================
+# MATRIZ DE SIMILARIDADE (Aluno x Aluno)
+# ============================================================
 
-
-# --- GERANDO A MATRIZ DE SIMILARIDADE ---
-
-# Matriz de Similaridade entre alunos
 matriz_similaridade <- matriz_inc %*% t(matriz_inc)
-
 print(matriz_similaridade)
 
+# ============================================================
+# MATRIZ DE COOCCORRÊNCIA (Disciplina x Disciplina)
+# ============================================================
 
-
-# --- GERANDO A MATRIZ DE COOCORRENCIA ---
-
-# Matriz de Coocorrência entre disciplinas
 matriz_coocorrencia <- t(matriz_inc) %*% matriz_inc
-
 print(matriz_coocorrencia)
 
+# ============================================================
+# GRAFO DE INCIDÊNCIA (Bipartido)
+# ============================================================
 
+g_incidencia <- graph_from_incidence_matrix(matriz_inc)
+
+plot(g_incidencia,
+     vertex.size = 15,
+     vertex.label.cex = 0.7,
+     main = "Grafo de Incidência")
+
+cat("\n--- Métricas - Incidência ---\n")
+print(degree(g_incidencia))
+print(closeness(g_incidencia))
+print(betweenness(g_incidencia))
+
+# ============================================================
+# GRAFO DE SIMILARIDADE (Aluno x Aluno)
+# ============================================================
+
+g_sim <- graph.adjacency(matriz_similaridade,
+                         mode = "undirected",
+                         weighted = TRUE)
+
+plot(g_sim,
+     vertex.size = 20,
+     vertex.label.cex = 0.8,
+     main = "Grafo de Similaridade")
+
+cat("\n--- Métricas - Similaridade ---\n")
+print(degree(g_sim))
+print(closeness(g_sim))
+print(betweenness(g_sim))
+print(edge_density(g_sim))
+
+# ============================================================
+# GRAFO DE COOCCORRÊNCIA (Disciplina x Disciplina)
+# ============================================================
+
+g_cooc <- graph.adjacency(matriz_coocorrencia,
+                          mode = "undirected",
+                          weighted = TRUE)
+
+plot(g_cooc,
+     vertex.size = 20,
+     vertex.label.cex = 0.8,
+     main = "Grafo de Coocorrência")
+
+cat("\n--- Métricas - Coocorrência ---\n")
+print(degree(g_cooc))
+print(closeness(g_cooc))
+print(betweenness(g_cooc))
+print(edge_density(g_cooc))
